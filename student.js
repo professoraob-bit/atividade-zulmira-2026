@@ -20,22 +20,17 @@ let answers = {};
 let current = 0;
 let student = null;
 let activity = null;
+let studentUid = "";
 let sending = false;
 
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-function yearFromTurma(turma) {
-  return turma.startsWith("6º") ? "6º ano" : "7º ano";
-}
-
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function yearFromTurma(turma) { return turma.startsWith("6º") ? "6º ano" : "7º ano"; }
 function esc(text) {
   return String(text ?? "").replace(/[&<>"']/g, c => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[c]));
+  }[c]);
 }
 
 async function loadCurrentActivity() {
@@ -47,23 +42,14 @@ async function loadCurrentActivity() {
 }
 
 async function loadQuestionsForActivity(ano, conteudo) {
-  // Lê somente as questões do ano. Como o banco é pequeno, filtramos
-  // o conteúdo no navegador para evitar depender de índice composto.
-  const snap = await getDocs(query(
-    collection(db, "questoes_publicas"),
-    where("serie", "==", ano)
-  ));
-
+  const snap = await getDocs(query(collection(db, "questoes_publicas"), where("serie", "==", ano)));
   const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   const content = all.filter(q => q.conteudo === conteudo);
-
   const technical = shuffle(content.filter(q => q.foco === "Educação Física")).slice(0, 5);
   const reading = shuffle(content.filter(q => q.foco === "Leitura e interpretação")).slice(0, 5);
-
   if (technical.length < 5 || reading.length < 5) {
     throw new Error("Esse conteúdo ainda não possui 10 questões disponíveis.");
   }
-
   return shuffle([...technical, ...reading]);
 }
 
@@ -71,7 +57,6 @@ function render() {
   const q = quiz[current];
   $("progress").textContent = `Questão ${current + 1} de 10`;
   $("fill").style.width = `${((current + 1) / 10) * 100}%`;
-
   const letters = ["A","B","C","D","E"];
 
   $("question").innerHTML = `
@@ -105,12 +90,11 @@ async function start(e) {
   const turma = $("turma").value;
   const turno = $("turno").value;
 
-  if (!nome || !turma || !turno) return;
-
   try {
-    await signInAnonymously(auth);
-    activity = await loadCurrentActivity();
+    const credential = await signInAnonymously(auth);
+    studentUid = credential.user.uid;
 
+    activity = await loadCurrentActivity();
     const ano = yearFromTurma(turma);
 
     if (activity.ano !== ano) {
@@ -160,12 +144,19 @@ $("finish").addEventListener("click", async () => {
   }
 
   if (sending) return;
+
+  if (!studentUid) {
+    $("error").textContent = "A sessão da atividade foi perdida. Atualize a página e inicie novamente.";
+    $("error").hidden = false;
+    return;
+  }
+
   sending = true;
   $("finish").disabled = true;
 
   try {
     await addDoc(collection(db, "tentativas"), {
-      alunoUid: auth.currentUser.uid,
+      alunoUid: studentUid,
       nome: student.nome,
       turma: student.turma,
       turno: student.turno,
@@ -184,7 +175,7 @@ $("finish").addEventListener("click", async () => {
     console.error(err);
     $("finish").disabled = false;
     sending = false;
-    $("error").textContent = "Não foi possível registrar a atividade.";
+    $("error").textContent = "Não foi possível registrar a atividade. Tente novamente.";
     $("error").hidden = false;
   }
 });
