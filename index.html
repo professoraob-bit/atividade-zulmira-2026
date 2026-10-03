@@ -1,1 +1,53 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Educação Física — Zulmira de Novais</title><link rel="stylesheet" href="./styles.css"></head><body><header class="header"><div class="head"><div class="school">ESCOLA MUNICIPAL ZULMIRA DE NOVAIS</div><div class="title">ATIVIDADE DE EDUCAÇÃO FÍSICA</div><div class="teacher">PROF. ARTHUR BARBOSA</div></div></header><main class="wrap"><section id="start" class="card"><h1>Iniciar atividade</h1><p class="muted">Preencha seus dados para responder a 10 questões.</p><form id="form"><label for="nome">Nome completo</label><input id="nome" maxlength="120" required><label for="turma">Turma</label><select id="turma" required><option value="">Selecione</option><option>6º ano A</option><option>6º ano B</option><option>6º ano C</option><option>7º ano A</option><option>7º ano B</option><option>7º ano C</option></select><label for="turno">Turno</label><select id="turno" required><option value="">Selecione</option><option>Manhã</option><option>Tarde</option></select><div class="privacy">Os dados informados serão utilizados exclusivamente para registro e acompanhamento desta atividade pedagógica e estarão disponíveis apenas ao professor responsável.</div><button class="button primary full">Iniciar atividade</button><p id="startError" class="error" hidden></p></form></section><section id="quiz" class="card" hidden><div id="progress">Questão 1 de 10</div><div class="progress"><div id="fill" class="fill"></div></div><div id="question"></div><div class="actions"><button id="next" class="button primary full">Próxima questão</button><button id="finish" class="button primary full" hidden>Finalizar atividade</button><p id="error" class="error" hidden></p></div></section><section id="done" class="card center" hidden><div class="success">✓</div><h1>Atividade concluída e registrada com sucesso.</h1><p class="muted">Você já pode fechar esta página.</p></section></main><script type="module" src="./student.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Educação Física — Zulmira de Novais</title><link rel="stylesheet" href="./styles.css"></head>
+<body>
+<header class="header"><div class="head">
+  <div class="school">ESCOLA MUNICIPAL ZULMIRA DE NOVAIS</div>
+  <div class="title">ATIVIDADE DE EDUCAÇÃO FÍSICA</div>
+  <div class="teacher">PROF. ARTHUR BARBOSA</div>
+</div></header>
+<main class="wrap">
+<section id="start" class="card">
+  <h1>Iniciar atividade</h1>
+  <p class="muted">Preencha seus dados. A atividade terá 10 questões.</p>
+  <div id="activeActivity" class="activeBox">Carregando atividade...</div>
+  <form id="form">
+    <label for="nome">Nome completo</label>
+    <input id="nome" maxlength="120" required>
+    <label for="turma">Turma</label>
+    <select id="turma" required>
+      <option value="">Selecione</option>
+      <option>6º ano A</option><option>6º ano B</option><option>6º ano C</option>
+      <option>7º ano A</option><option>7º ano B</option><option>7º ano C</option>
+    </select>
+    <label for="turno">Turno</label>
+    <select id="turno" required>
+      <option value="">Selecione</option><option>Manhã</option><option>Tarde</option>
+    </select>
+    <div class="privacy">Os dados informados serão utilizados exclusivamente para registro e acompanhamento desta atividade pedagógica e estarão disponíveis apenas ao professor responsável.</div>
+    <button class="button primary full">Iniciar atividade</button>
+    <p id="startError" class="error" hidden></p>
+  </form>
+</section>
+
+<section id="quiz" class="card" hidden>
+  <div id="progress">Questão 1 de 10</div>
+  <div class="progress"><div id="fill" class="fill"></div></div>
+  <div id="question"></div>
+  <div class="actions">
+    <button id="next" class="button primary full">Próxima questão</button>
+    <button id="finish" class="button primary full" hidden>Finalizar atividade</button>
+    <p id="error" class="error" hidden></p>
+  </div>
+</section>
+
+<section id="done" class="card center" hidden>
+  <div class="success">✓</div>
+  <h1>Atividade concluída e registrada com sucesso.</h1>
+  <p class="muted">Você já pode fechar esta página.</p>
+</section>
+</main>
+<script type="module" src="./student.js"></script>
+</body></html>

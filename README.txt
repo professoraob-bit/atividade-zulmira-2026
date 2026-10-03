@@ -1,13 +1,14 @@
-SITE — ESCOLA MUNICIPAL ZULMIRA DE NOVAIS
+NOVA VERSÃO — ZULMIRA DE NOVAIS
 
-Aluno: index.html
-Professor: professor.html
+O professor escolhe o ano e o conteúdo no painel.
+Ao disponibilizar uma atividade, o aluno recebe 10 questões daquele conteúdo:
+- 5 de abordagem técnica de Educação Física
+- 5 de leitura/interpretação
 
-Firebase:
-zulmira-edf-2026
+O aluno não escolhe o conteúdo.
+Os resultados são registrados no Firestore e o painel calcula a nota automaticamente.
 
-O site não contém gabaritos. A correção é calculada no painel do professor
-a partir das respostas salvas e dos gabaritos do Firestore.
-
-Não coloque serviceAccountKey.json, gabaritos.json ou outros arquivos
-administrativos neste repositório público.
+Antes de publicar:
+1. Atualize as regras usando REGRAS_FIRESTORE_ZULMIRA.txt
+2. Substitua os arquivos do site no GitHub.
+3. Não coloque serviceAccountKey.json ou arquivos de gabarito no GitHub.
